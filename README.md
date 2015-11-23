@@ -9,6 +9,8 @@ Features
 ========
 Including most basic tools
 
+Super fast color fill with native C plugin
+
 Minesweeper mini game
 
 
