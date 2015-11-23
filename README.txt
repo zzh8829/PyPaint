@@ -1,4 +1,24 @@
-Paint Program
+# PyPaint
+Paint Program in Python
 
-Author: Zihao Zhang
-E-Mail: zzh8829@gmail.com
+Demo
+====
+![](https://raw.githubusercontent.com/zzh8829/PyPaint/master/demo.png)
+
+Features
+========
+Including most basic tools
+
+Minesweeper mini game
+
+
+GUI Library
+===========
+This program use a GUI library written by me.
+
+It supports menu bar, multiple windows, statusbar and other features.
+
+Event handling is done using a QT like signal/connect system
+
+Everything is built from scrath
+
