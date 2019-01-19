@@ -5,7 +5,7 @@ from zgui.guiglobal import *
 from PaintCore import *
 import PaintConfig as pcfg
 import time
-import PaintCompiled as pc
+# import PaintCompiled as pc
 
 
 class Paint:
@@ -27,9 +27,9 @@ class Paint:
 
 	def init(self):
 
-		pygame.display.set_caption(pcfg.TITLE) 
-		
-		
+		pygame.display.set_caption(pcfg.TITLE)
+
+
 		menuBar = MenuBar()
 		statusBar = StatusBar()
 
@@ -72,10 +72,10 @@ class Paint:
 		vw.add(scv)
 		vw.add(cbg)
 		vw.add(ms)
-		
+
 		menuBar.add(vw)
-		
-		
+
+
 		t = Menu(text = 'Tools')
 		msm = MenuItem(text = 'Select and Move')
 		mp = MenuItem(text = 'Pencil')
@@ -114,7 +114,7 @@ class Paint:
 
 		self.gui.setStatusBar(statusBar)
 		self.gui.setMenuBar(menuBar)
-  
+
 		self.gui.statusBar.setText(pcfg.TITLE)
 
 		canvasWin = CanvasWindow(size = (800,600))
@@ -203,7 +203,7 @@ class Paint:
 		mf.mouseLeftUp.connect(ft.active)
 		mcp.mouseLeftUp.connect(cp.active)
 		mtx.mouseLeftUp.connect(tt.active)
-		
+
 
 		tb.add(pt,(0,0))
 		tb.add(er,(0,1))
@@ -224,7 +224,7 @@ class Paint:
 			self.gui.add(Minesweeper(),(60,60))
 		ms.mouseLeftUp.connect(mama)
 
-		
+
 
 		def loadbg(fn):
 			self.bg = ResizeImage(pr.resMgr.LoadImage(fn).convert(),pcfg.SIZE)

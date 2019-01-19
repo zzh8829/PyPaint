@@ -1,7 +1,7 @@
 import pygame
 import zgui
 import PaintResource as pr
-import PaintCompiled as pc
+# import PaintCompiled as pc
 import PaintConfig as pcfg
 import time
 import random
@@ -127,7 +127,7 @@ class ColorEdit(Container):
 		l2 = VBoxLayout()
 		self['layout'].add(l2)
 		layr = HBoxLayout(spacing = 15)
-		layg = HBoxLayout(spacing = 15) 
+		layg = HBoxLayout(spacing = 15)
 		layb = HBoxLayout(spacing = 15)
 		self.rs = Slider(bgcolor = RED,range = (0,255),sizehint = [50,10])
 		self.gs = Slider(bgcolor = GREEN,range = (0,255),sizehint = [50,10])
@@ -145,13 +145,13 @@ class ColorEdit(Container):
 		def changeg(g):
 			g = int(g)
 			self.gl.setText(g)
-			self['g'] = g 
+			self['g'] = g
 			self.resetSquare()
 
 		def changeb(b):
 			b = int(b)
 			self.bl.setText(b)
-			self['b'] = b 
+			self['b'] = b
 			self.resetSquare()
 		self.rs.valueChanged.connect(changer)
 		self.gs.valueChanged.connect(changeg)
@@ -186,7 +186,7 @@ class ColorEditDialog(Dialog):
 	"""Dialog of color editor, Dialog"""
 
 	def __init__(self,**args):
-		args['size'] = (420,250)		
+		args['size'] = (420,250)
 		super().__init__(**args)
 		default = {}
 		default['title'] = 'Color Editor'
@@ -239,7 +239,7 @@ class ColorSelect(Image):
 		self.colorChanged(self['color'])
 
 	def over(self):
-		
+
 		self['select'] = pos_minus(local.mouse.pos,self['screenpos'])
 
 	def getColor(self):
@@ -318,7 +318,7 @@ class PaintTool(GUIObject):
 		def mp():
 			self['state'] = 'down'
 
-		
+
 		self.mouseOver.connect(mo)
 		self.mouseLeftPress.connect(mp)
 		self.mouseLeftUp.connect(self.active)
@@ -339,7 +339,7 @@ class PaintTool(GUIObject):
 		pass
 
 	def over(self):
-		
+
 		pass
 
 	def down(self):
@@ -370,7 +370,7 @@ class PaintTool(GUIObject):
 		self['toolimage'].draw(surf)
 		if self['selected']:
 			pygame.draw.rect(surf.surface,(98,162,228),pygame.Rect((0,0),pos_minus(self['size'],(1,1))),2)
-		screen.blit(surf,self['pos']) 
+		screen.blit(surf,self['pos'])
 
 	def setCanvas(self,c):
 		"""assign canvas to tool"""
@@ -442,7 +442,7 @@ class EraserTool(PaintTool):
 		size = self['toolimage']['size'][0]/(1-self['border']*2),self['toolimage']['size'][1]/(1-self['border']*2)
 		if 'size' in args: size = args['size']
 		self.resize(size)
-		
+
 		wl = Label(text = 'SIZE: 1',fontsize = 20)
 		def changetoolsize(w):
 			self['toolsize'] = int(w),int(w)
@@ -459,7 +459,7 @@ class EraserTool(PaintTool):
 
 
 	def over(self):
-		
+
 		newp = pos_minus(self['canvas'].canvasPos(),self['toolsize'])
 		pygame.draw.rect(self['canvas']['overlay'].surface,CurrentColor,(newp,pos_mul(self['toolsize'],2)),1)
 
@@ -545,10 +545,10 @@ class RectTool(PaintTool):
 
 		def fill():
 			changetoolmode('fill')
-			
+
 		def unfill():
 			changetoolmode('unfill')
-			
+
 
 		fb.mouseLeftUp.connect(fill)
 		ufb.mouseLeftUp.connect(unfill)
@@ -614,10 +614,10 @@ class SelectTool(PaintTool):
 
 		def copy():
 			changetoolmode('copy')
-			
+
 		def cut():
 			changetoolmode('cut')
-			
+
 		ctb.mouseLeftUp.connect(cut)
 		cpb.mouseLeftUp.connect(copy)
 
@@ -671,7 +671,7 @@ class SelectTool(PaintTool):
 		rect = self.sfrect.move(move)
 		if self['toolmode'] == 'cut':
 			self['canvas']['surface'].subsurface(self.sfrect).fill(self['canvas']['backgroundcolor'])
-		self['canvas']['surface'].blit(self.sf,rect)	
+		self['canvas']['surface'].blit(self.sf,rect)
 		self['canvas'].addHistory()
 
 	def cleanup(self):
@@ -845,10 +845,10 @@ class CircleTool(PaintTool):
 
 		def fill():
 			changetoolmode('fill')
-			
+
 		def unfill():
 			changetoolmode('unfill')
-			
+
 
 		fb.mouseLeftUp.connect(fill)
 		ufb.mouseLeftUp.connect(unfill)
@@ -870,7 +870,7 @@ class CircleTool(PaintTool):
 			pygame.draw.ellipse(self['canvas']['overlay'].surface,CurrentColor,rect)
 		elif rect[2]>2*self['toolsize'] and rect[3]>2*self['toolsize']:
 			pygame.draw.ellipse(self['canvas']['overlay'].surface,CurrentColor,rect,self['toolsize'])
-		
+
 	def up(self):
 		rect = pygame.Rect(self.oldpos,pos_minus(self['canvas'].canvasPos(),self.oldpos))
 		rect.normalize()
@@ -960,7 +960,7 @@ class ColorPickerTool(PaintTool):
 
 	def press(self):
 		pos = self['canvas'].canvasPos()
-		if not self.valid(pos): return 
+		if not self.valid(pos): return
 		col = self['canvas']['surface'].get_at(pos)
 		ol = self['canvas']['overlay'].surface
 		pygame.draw.circle(ol,col,pos,15,1)
@@ -973,7 +973,7 @@ class ColorPickerTool(PaintTool):
 		CurrentColor = self['canvas']['surface'].get_at(SafeSize(self['canvas'].canvasPos()))
 		local.gui.mouseLeftPress.disconnectSlot(self.Spress)
 		local.gui.mouseLeftUp.disconnectSlot(self.Sup)
-			
+
 
 class NoneTool(PaintTool):
 	"""Paint Tool: Empty tool just for test"""
@@ -1023,13 +1023,13 @@ class PaintCanvas(GUIObject):
 					sf = pygame.image.load(fn)
 				except:
 					MessageBox(text = 'Cannot Open File')
-					return 
+					return
 				self.clear()
 				self['surface'].blit(sf,(0,0))
 				self['filename'] = fn
 				pcfg.FILENAME = fn.split('/')[-1]
 			self['saved'] = True
-		if not self['saved']: 
+		if not self['saved']:
 			mb = self.askForSave()
 			mb.no.mouseLeftUp.connect(_openFile)
 			mb.yes.mouseLeftUp.connect(_openFile)
@@ -1063,7 +1063,7 @@ class PaintCanvas(GUIObject):
 			self['undostack'] = []
 			pcfg.FILENAME = ""
 			self.addHistory()
-		if not self['saved']: 
+		if not self['saved']:
 			mb = self.askForSave()
 			mb.yes.mouseLeftUp.connect(_new)
 			mb.no.mouseLeftUp.connect(_new)
@@ -1194,7 +1194,7 @@ class ToolBox(Window):
 
 		self.mainLay = VBoxLayout()
 
-	
+
 		l = GridLayout(grid = (5,2),sizehint = [10,50])
 		l['margintop']=5
 		l['marginbot']=5
@@ -1236,7 +1236,7 @@ class ToolBox(Window):
 
 
 
-# Minesweeper 
+# Minesweeper
 faceimg = pr.resMgr.LoadImage('res/minesweeper/face.bmp')
 mineimg = pr.resMgr.LoadImage('res/minesweeper/mines.bmp')
 numimg = pr.resMgr.LoadImage('res/minesweeper/num.bmp')
@@ -1331,7 +1331,7 @@ class Minesweeper(Window):
 		t = 0
 		if self['started']:
 			t = int(time.time()-self['inittime'])
-		if t!= self['timeused']: 
+		if t!= self['timeused']:
 			if not self['over']:
 				self['timeused'] = t
 				self.timeUse.setText(t)
@@ -1450,7 +1450,7 @@ class Mine(GUIObject):
 			self['state'] = 'up'
 
 	def draw(self,screen):
-		screen.blit(mineimgs[self['state']],self['pos']) 
+		screen.blit(mineimgs[self['state']],self['pos'])
 
 class MineFace(GUIObject):
 	"""class of smiling face , GUIObject"""
@@ -1472,7 +1472,7 @@ class MineFace(GUIObject):
 		if self['state'] == 'down':
 			self['state'] = 'smile'
 
-	def resize(self,size):	
+	def resize(self,size):
 		delta = pos_minus(size,self['size'])
 		self['pos'] = pos_plus(self['pos'],(delta[0]//2,delta[1]//2))
 
